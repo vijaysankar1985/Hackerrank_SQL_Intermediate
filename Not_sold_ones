@@ -1,0 +1,10 @@
+There are two tables 'PRODUCT' and 'INVOICE_ITEM'. 
+PRODUCT table contains: id, sku, product_name,description,price, quantity, stock_availability as column names. 
+INVOICE_ITEM table contains:invoice_id, product_id,quantity, price,line_total_price as column names. id from PRODUCT and product_id from INVOICE_ITEM tables are similar. 
+Create an Oracle SQL query to list the products that are not sold, by displaying its sku, product_name. Also order the results in ascending sku
+
+SELECT P.sku, P.product_name
+FROM PRODUCT P
+LEFT JOIN INVOICE_ITEM I ON P.id = I.product_id
+WHERE I.product_id IS NULL
+ORDER BY P.sku ASC;
