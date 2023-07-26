@@ -1,0 +1,20 @@
+Two tables: CUSTOMER,INVOICE. 
+CUSTOMER table contains: id, cust_name,city_id,cust_add,contact,email,phone,is_active as column names. 
+INVOICE table contains: id,invoice_number,customer_id,total_price as columns. 
+CUSTOMER.id=INVOICE.customer_id. 
+Create an oracle sql query to list all the customers who spent 25% or less on the average amount spent on all the invoices. 
+  Also for each customer display their name and amount spent to 6 decimal places.  Order the result by the amount spent from high to low.
+
+SELECT
+    C.cust_name,
+    TO_CHAR(SUM(I.total_price), '9999999.999999') AS amount_spent
+FROM
+    CUSTOMER C
+JOIN
+    INVOICE I ON C.id = I.customer_id
+GROUP BY
+    C.id, C.cust_name
+HAVING
+    ROUND(SUM(I.total_price) / (SELECT AVG(total_price) FROM INVOICE), 6) <= 0.25
+ORDER BY
+    amount_spent DESC;
